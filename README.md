@@ -1,58 +1,141 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# KirimApaBae 📤
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A simple but secure file sharing web app built with Laravel. Upload a file, get a unique link, share it. Anyone with the link can download it.
 
-## About Laravel
+**Live demo:** `https://kirimapabae.infinityfreeapp.com` *(coming soon)*
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Unique token links** — every uploaded file gets a randomly generated 64-character token URL
+- **Optional password protection** — files can be locked with a bcrypt-hashed password
+- **Expiry system** — set a date/time after which the file becomes inaccessible
+- **Auto-delete expired files** — scheduled background job cleans up expired files daily
+- **Activity log & admin dashboard** — full audit trail of uploads, downloads, and failed attempts
+- **Rate limiting** — 10 requests/minute per IP to prevent abuse
+- **100% free stack** — no paid services required
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Tech Stack
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Layer | Technology |
+|---|---|
+| Backend | PHP 8.x + Laravel 11 |
+| Frontend | Blade + Tailwind CSS |
+| Database | MySQL 8.x |
+| Hosting | InfinityFree (free) |
+| Storage | Local filesystem |
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+---
 
-## Agentic Development
+## How It Works
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```
+User uploads file
+      ↓
+File saved to storage/app/private/files/ with random name
+      ↓
+Record saved to DB with unique 64-char token
+      ↓
+User gets a shareable link: /file/{token}
+      ↓
+Recipient opens link → enters password (if any) → downloads file
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+---
 
-## Contributing
+## Getting Started (Local)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Requirements
 
-## Code of Conduct
+- PHP 8.x
+- Composer
+- MySQL 8.x
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Installation
 
-## Security Vulnerabilities
+```bash
+# Clone the repo
+git clone https://github.com/ikhlasulabda/kirimapabae.git
+cd kirimapabae
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Install dependencies
+composer install
+
+# Copy env file
+cp .env.example .env
+
+# Generate app key
+php artisan key:generate
+```
+
+### Configure `.env`
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=kirimapabae
+DB_USERNAME=root
+DB_PASSWORD=your_password
+
+ADMIN_PASSWORD=your_admin_password
+```
+
+### Run
+
+```bash
+# Run migrations
+php artisan migrate
+
+# Start local server
+php artisan serve
+```
+
+Open `http://localhost:8000` in your browser.
+
+---
+
+## Admin Dashboard
+
+Access the activity log at `/admin/logs`. Requires the `ADMIN_PASSWORD` set in your `.env` file.
+
+Features:
+- View all upload, download, failed password, and expired access events
+- Delete files directly from the dashboard (removes from storage + database)
+- Session expires when browser tab is closed
+
+---
+
+## Scheduled Job
+
+To auto-delete expired files, set up a cron job on your server:
+
+```
+* * * * * php /path/to/artisan schedule:run
+```
+
+Or run manually:
+
+```bash
+php artisan files:delete-expired
+```
+
+---
+
+## Security
+
+- Passwords hashed with **bcrypt**
+- Dangerous file extensions blocked on upload
+- Files stored outside the public directory (`storage/app/private/`)
+- Rate limiting per IP (10 req/min on download routes)
+- Admin session expires on tab close
+
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+free to use and modify.
+byAbda
