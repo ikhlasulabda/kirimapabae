@@ -28,15 +28,33 @@ class FileController extends Controller
                 'max:51200',
                 function ($attribute, $value, $fail) {
                     $allowedExtensions = [
-                        'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt', 'csv',
-                        'jpg', 'jpeg', 'png', 'webp', 'gif',
-                        'zip', 'rar', '7z',
-                        'mp3', 'mp4', 'wav', 'mov',
-                        'json', 'md'
+                        'pdf',
+                        'doc',
+                        'docx',
+                        'xls',
+                        'xlsx',
+                        'ppt',
+                        'pptx',
+                        'txt',
+                        'csv',
+                        'jpg',
+                        'jpeg',
+                        'png',
+                        'webp',
+                        'gif',
+                        'zip',
+                        'rar',
+                        '7z',
+                        'mp3',
+                        'mp4',
+                        'wav',
+                        'mov',
+                        'json',
+                        'md'
                     ];
-                    
+
                     $ext = strtolower($value->getClientOriginalExtension());
-                    
+
                     if (empty($ext)) {
                         $fail('Kalo lu mau upload folder, dijadiin .zip dulu ya ngab! Jangan mentahan folder gitu.');
                         return;
@@ -116,13 +134,13 @@ class FileController extends Controller
 
         if (!Hash::check($request->password, $file->password)) {
             RateLimiter::hit($key, 420); // Block selama 7 menit (420 detik) setelah 5x gagal
-            
+
             FileLog::create([
                 'file_id' => $file->id,
                 'action' => 'failed_password',
                 'ip_address' => $request->ip(),
             ]);
-            
+
             return back()->withErrors(['password' => 'Password salah.']);
         }
 
@@ -215,5 +233,21 @@ class FileController extends Controller
         $file->delete();
 
         return back()->with('deleted', 'File berhasil dihapus.');
+    }
+
+    public function adminDeleteAll(Request $request)
+    {
+        if (!session('admin_verified')) {
+            return redirect()->route('admin.logs');
+        }
+
+        $files = File::all();
+
+        foreach ($files as $file) {
+            Storage::delete('private/files/' . $file->stored_name);
+            $file->delete();
+        }
+
+        return back()->with('deleted', 'Semua file berhasil dihapus.');
     }
 }

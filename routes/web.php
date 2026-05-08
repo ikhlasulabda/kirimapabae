@@ -22,3 +22,4 @@ Route::middleware(['throttle:download'])->group(function () {
 Route::match(['get', 'post'], '/admin/logs', [FileController::class, 'adminLogs'])->name('admin.logs');
 
 Route::delete('/admin/file/{id}', [FileController::class, 'adminDeleteFile'])->name('admin.delete');
+Route::delete('/admin/files/all', [FileController::class, 'adminDeleteAll'])->name('admin.delete.all');
