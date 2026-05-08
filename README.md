@@ -137,4 +137,5 @@ php artisan files:delete-expired
 
 ## License
 
-MIT — free to use and modify.
+free to use and modify.
+byAbda
