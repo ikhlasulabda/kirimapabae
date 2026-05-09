@@ -2,7 +2,7 @@
 
 > Send files to anyone. No fuss, no account needed.
 
-**KirimApaBae** is a simple file-sharing web app that lets anyone upload a file and instantly get a shareable download link — no registration, no hassle.
+**KirimApaBae** is a simple file sharing web app that lets anyone upload a file and instantly get a shareable download link. no registration, no hassle.
 
 🌐 **Live:** [kirimapabae.rf.gd](https://kirimapabae.rf.gd)
 
@@ -10,13 +10,13 @@
 
 ## ✨ Features
 
-- **File Upload** — Drag & drop or click to upload, up to 30MB
-- **Instant Download Link** — Get a unique link right after uploading
-- **Auto QR Code** — QR code generated automatically for offline sharing
-- **Password Protection** — Optional password for private file sharing
-- **Expiry Date** — Set when the download link automatically expires
-- **Sender Note** — Add a personal message for the file recipient
-- **Download Counter** — Recipients can see how many times the file has been downloaded
+- **File Upload**: Drag & drop or click to upload, up to 30MB
+- **Instant Download Link**: Get a unique link right after uploading
+- **Auto QR Code**: QR code generated automatically for offline sharing
+- **Password Protection**: Optional password for private file sharing
+- **Expiry Date**: Set when the download link automatically expires
+- **Sender Note**: Add a personal message for the file recipient
+- **Download Counter**: Recipients can see how many times the file has been downloaded
 
 ---
 
@@ -82,7 +82,7 @@ Uploaded files are stored at:
 storage/app/private/private/files/
 ```
 
-Download links use auto-generated unique tokens — files are never directly accessible via URL.
+Download links use auto-generated unique tokens, files are never directly accessible via URL.
 
 ---
 
@@ -104,7 +104,7 @@ ADMIN_PASSWORD=your_admin_password
 - Manually create `storage/app/private/private/files/` via file manager before first upload
 - PHP version: 8.3 (Laravel 11 compatible)
 - Use `file` driver for session and cache (not `database`)
-- Upload files via FileZilla — use mobile hotspot if ISP blocks FTP port 21
+- Upload files via FileZilla, use mobile hotspot if ISP blocks FTP port 21
 - Run migrations via phpMyAdmin import
 
 ---
