@@ -25,7 +25,7 @@ class FileController extends Controller
             'file' => [
                 'required',
                 'file',
-                'max:51200',
+                'max:30720',
                 function ($attribute, $value, $fail) {
                     $allowedExtensions = [
                         'pdf',
@@ -73,6 +73,7 @@ class FileController extends Controller
             ],
             'password' => 'nullable|string|min:4',
             'expires_at' => 'nullable|date|after:now',
+            'description' => 'nullable|string|max:2000',
         ]);
 
         $uploadedFile = $request->file('file');
@@ -87,6 +88,7 @@ class FileController extends Controller
             'token' => Str::random(64),
             'password' => $request->password ? Hash::make($request->password) : null,
             'expires_at' => $request->expires_at ?? null,
+            'description' => $request->description ? strip_tags($request->description) : null,
         ]);
 
         FileLog::create([

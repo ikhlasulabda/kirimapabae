@@ -12,6 +12,7 @@ class File extends Model
         'token',
         'password',
         'expires_at',
+        'description',
         'download_count',
     ];
 

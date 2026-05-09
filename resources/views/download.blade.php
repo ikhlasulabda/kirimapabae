@@ -21,7 +21,11 @@
             theme: {
                 extend: {
                     fontFamily: { caveat: ['"Caveat Brush"', 'cursive'], sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
-                    colors: { dark: '#111111' }
+                    colors: { 
+                        dark: '#111111',
+                        spink: '#FF99AC',
+                        sorange: '#FFBD98',
+                    }
                 }
             }
         }
@@ -64,7 +68,7 @@
             Ada kiriman file nih!
         </h1>
 
-        <div class="mb-10 flex flex-col items-center w-full">
+        <div class="mb-6 flex flex-col items-center w-full">
             <p class="text-xs font-black text-dark/50 uppercase tracking-widest mb-2">Nama File</p>
             <div class="bg-white/40 backdrop-blur-sm border-4 border-white/50 rounded-[2rem] p-6 shadow-xl w-full overflow-x-auto custom-scrollbar">
                 <h2 class="text-xl lg:text-2xl font-black text-dark whitespace-nowrap px-2">
@@ -72,6 +76,25 @@
                 </h2>
             </div>
         </div>
+
+        @if($file->description)
+            <div class="mb-10 w-full max-w-md relative group">
+                <!-- Aesthetic Note Card -->
+                <div class="absolute -inset-1 bg-gradient-to-r from-spink/20 to-sorange/20 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                <div class="relative bg-white/60 backdrop-blur-md border-2 border-white/80 rounded-3xl p-6 shadow-lg transform rotate-1 hover:rotate-0 transition-transform duration-300">
+                    <div class="absolute top-0 right-0 w-12 h-12 bg-dark/5 -rotate-45 translate-x-6 -translate-y-6"></div>
+                    <p class="text-[10px] font-black text-dark/40 uppercase tracking-widest mb-3 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        Catatan Pengirim
+                    </p>
+                    <div class="text-dark/90 text-sm font-semibold leading-relaxed text-left whitespace-pre-wrap italic font-sans">
+                        "{{ $file->description }}"
+                    </div>
+                </div>
+            </div>
+        @endif
 
         <div
             class="flex flex-wrap items-center justify-center gap-6 mb-12 bg-white/30 backdrop-blur-sm px-8 py-4 rounded-full border border-white/40 shadow-sm">

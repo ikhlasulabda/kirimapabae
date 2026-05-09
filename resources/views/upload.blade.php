@@ -101,48 +101,65 @@
         @endif
 
         <form action="{{ route('file.upload') }}" method="POST" enctype="multipart/form-data"
-            class="flex flex-col gap-8 text-center">
+            class="flex flex-col gap-5">
             @csrf
 
+            <!-- Drop Zone -->
             <div class="flex flex-col gap-2 items-center">
-                <label class="font-caveat text-3xl tracking-wide text-dark">Pilih filenya</label>
                 <div id="dropZone"
-                    class="relative w-full bg-white/40 backdrop-blur-sm border-4 border-dashed border-dark/30 rounded-[2rem] p-10 text-center smooth-hover hover:bg-white/60 hover:border-dark hover:scale-[1.02] cursor-pointer group shadow-lg">
+                    class="relative w-full bg-white/40 backdrop-blur-sm border-4 border-dashed border-dark/30 rounded-[2rem] p-8 text-center smooth-hover hover:bg-white/60 hover:border-dark hover:scale-[1.01] cursor-pointer group shadow-lg">
                     <input type="file" name="file" required id="fileInput"
                         class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20">
                     <div class="pointer-events-none flex flex-col items-center justify-center text-dark">
-                        <span id="dropText" class="font-caveat text-3xl group-hover:scale-105 smooth-hover">Klik
-                            atau Drop di mari</span>
-                        <span id="dropSub" class="font-bold text-sm mt-2 opacity-60">Maksimal 50MB ye mpruy!</span>
+                        <span id="dropText" class="font-caveat text-3xl group-hover:scale-105 smooth-hover">Klik atau
+                            Drop Filenya</span>
+                        <span id="dropSub" class="font-bold text-xs mt-1 opacity-60">Maksimal 30MB ye mpruy!</span>
                         <span id="fileName"
-                            class="font-black text-lg mt-3 hidden bg-dark text-white py-1.5 px-5 rounded-full shadow-lg break-all max-w-[90%]"></span>
+                            class="font-black text-sm mt-2 hidden bg-dark text-white py-1 px-4 rounded-full shadow-lg break-all max-w-[90%]"></span>
                     </div>
                 </div>
             </div>
 
-            <div class="flex flex-col gap-2 items-center">
-                <label class="font-caveat text-3xl tracking-wide text-dark">Kasih password gak? (Biar aman)</label>
+            <!-- Description / Notes -->
+            <div class="flex flex-col gap-1.5 items-center">
+                <label class="font-caveat text-2xl tracking-wide text-dark">Catatan tambahan? (Opsional)</label>
                 <div
-                    class="w-full bg-white/40 backdrop-blur-sm border-2 border-transparent rounded-[1.5rem] p-1.5 soft-focus smooth-hover hover:bg-white/60 shadow-md">
-                    <input type="password" name="password" placeholder="Kosongin kalo gak mau ribet..."
-                        class="w-full bg-transparent p-3 text-base font-bold outline-none placeholder:text-dark/40 text-dark text-center">
+                    class="w-full bg-white/40 backdrop-blur-sm border-2 border-transparent rounded-[1.5rem] p-4 soft-focus smooth-hover hover:bg-white/60 shadow-md relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-16 h-16 bg-dark/5 -rotate-45 translate-x-8 -translate-y-8">
+                    </div>
+                    <textarea name="description" placeholder="max 300 kata" rows="3"
+                        class="w-full bg-transparent text-sm font-bold outline-none placeholder:text-dark/30 text-dark resize-none custom-scrollbar"
+                        style="font-family: 'Plus Jakarta Sans', sans-serif;"></textarea>
                 </div>
             </div>
 
-            <div class="flex flex-col gap-2 items-center">
-                <label class="font-caveat text-3xl tracking-wide text-dark">Kapan expired nya enih?</label>
-                <div
-                    class="w-full bg-white/40 backdrop-blur-sm border-2 border-transparent rounded-[1.5rem] p-1.5 soft-focus smooth-hover hover:bg-white/60 shadow-md">
-                    <input type="datetime-local" name="expires_at"
-                        class="w-full bg-transparent p-3 text-base font-bold outline-none text-dark text-center">
+            <!-- Password & Expiry Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Password -->
+                <div class="flex flex-col gap-1.5 items-center">
+                    <label class="font-caveat text-2xl tracking-wide text-dark">Password?</label>
+                    <div
+                        class="w-full bg-white/40 backdrop-blur-sm border-2 border-transparent rounded-[1.2rem] p-1 soft-focus smooth-hover hover:bg-white/60 shadow-md">
+                        <input type="password" name="password" placeholder="boleh pake, boleh engga..."
+                            class="w-full bg-transparent p-2.5 text-sm font-bold outline-none placeholder:text-dark/40 text-dark text-center">
+                    </div>
                 </div>
-                <p class="text-xs font-bold text-dark/60 mt-1">Kalo kosong berarti file lu abadi nan jaya (selama disk
-                    gak penuh).</p>
+
+                <!-- Expiry -->
+                <div class="flex flex-col gap-1.5 items-center">
+                    <label class="font-caveat text-2xl tracking-wide text-dark">Kapan Expired?</label>
+                    <div
+                        class="w-full bg-white/40 backdrop-blur-sm border-2 border-transparent rounded-[1.2rem] p-1 soft-focus smooth-hover hover:bg-white/60 shadow-md">
+                        <input type="datetime-local" name="expires_at"
+                            class="w-full bg-transparent p-2.5 text-sm font-bold outline-none text-dark text-center">
+                    </div>
+                    <p class="text-[12px] font-bold text-dark/40 mt-1">Boleh dikosongin juga btw.</p>
+                </div>
             </div>
 
-            <div class="pt-4">
+            <div class="pt-2 text-center">
                 <button type="submit"
-                    class="group relative inline-flex items-center justify-center bg-dark text-white rounded-full px-10 py-4 text-xl font-black overflow-hidden smooth-hover hover:shadow-[0_15px_30px_-10px_rgba(0,0,0,0.4)] hover:-translate-y-1 active:scale-95">
+                    class="group relative inline-flex items-center justify-center bg-dark text-white rounded-full px-8 py-3 text-lg font-black overflow-hidden smooth-hover hover:shadow-[0_15px_30px_-10px_rgba(0,0,0,0.4)] hover:-translate-y-1 active:scale-95">
                     <span class="relative z-10 flex items-center gap-2">
                         UPLOAD FILE
                     </span>
