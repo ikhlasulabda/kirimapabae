@@ -1,58 +1,44 @@
-# KirimApaBae 📤
+# KirimApaBae 📦
 
-A simple but secure file sharing web app built with Laravel. Upload a file, get a unique link, share it. Anyone with the link can download it.
+> Send files to anyone. No fuss, no account needed.
 
-**Live demo:** `https://kirimapabae.infinityfreeapp.com` *(coming soon)*
+**KirimApaBae** is a simple file-sharing web app that lets anyone upload a file and instantly get a shareable download link — no registration, no hassle.
 
----
-
-## Features
-
-- **Unique token links** — every uploaded file gets a randomly generated 64-character token URL
-- **Optional password protection** — files can be locked with a bcrypt-hashed password
-- **Expiry system** — set a date/time after which the file becomes inaccessible
-- **Auto-delete expired files** — scheduled background job cleans up expired files daily
-- **Activity log & admin dashboard** — full audit trail of uploads, downloads, and failed attempts
-- **Rate limiting** — 10 requests/minute per IP to prevent abuse
-- **100% free stack** — no paid services required
+🌐 **Live:** [kirimapabae.rf.gd](https://kirimapabae.rf.gd)
 
 ---
 
-## Tech Stack
+## ✨ Features
 
-| Layer | Technology |
+- **File Upload** — Drag & drop or click to upload, up to 30MB
+- **Instant Download Link** — Get a unique link right after uploading
+- **Auto QR Code** — QR code generated automatically for offline sharing
+- **Password Protection** — Optional password for private file sharing
+- **Expiry Date** — Set when the download link automatically expires
+- **Sender Note** — Add a personal message for the file recipient
+- **Download Counter** — Recipients can see how many times the file has been downloaded
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Tech |
 |---|---|
-| Backend | PHP 8.x + Laravel 11 |
-| Frontend | Blade + Tailwind CSS |
-| Database | MySQL 8.x |
-| Hosting | InfinityFree (free) |
-| Storage | Local filesystem |
+| Framework | Laravel 11 |
+| PHP | ^8.2 |
+| Database | MySQL |
+| Frontend | Blade + Tailwind CSS (CDN) |
+| Storage | Local Filesystem |
+| Hosting | InfinityFree |
 
 ---
 
-## How It Works
+## 🚀 Local Setup
 
-```
-User uploads file
-      ↓
-File saved to storage/app/private/files/ with random name
-      ↓
-Record saved to DB with unique 64-char token
-      ↓
-User gets a shareable link: /file/{token}
-      ↓
-Recipient opens link → enters password (if any) → downloads file
-```
-
----
-
-## Getting Started (Local)
-
-### Requirements
-
-- PHP 8.x
+### Prerequisites
+- PHP 8.2+
 - Composer
-- MySQL 8.x
+- MySQL
 
 ### Installation
 
@@ -69,28 +55,19 @@ cp .env.example .env
 
 # Generate app key
 php artisan key:generate
-```
 
-### Configure `.env`
-
-```env
+# Configure database in .env
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=kirimapabae
 DB_USERNAME=root
-DB_PASSWORD=your_password
+DB_PASSWORD=
 
-ADMIN_PASSWORD=your_admin_password
-```
-
-### Run
-
-```bash
 # Run migrations
 php artisan migrate
 
-# Start local server
+# Start the server
 php artisan serve
 ```
 
@@ -98,44 +75,44 @@ Open `http://localhost:8000` in your browser.
 
 ---
 
-## Admin Dashboard
+## 📁 File Storage
 
-Access the activity log at `/admin/logs`. Requires the `ADMIN_PASSWORD` set in your `.env` file.
+Uploaded files are stored at:
+```
+storage/app/private/private/files/
+```
 
-Features:
-- View all upload, download, failed password, and expired access events
-- Delete files directly from the dashboard (removes from storage + database)
-- Session expires when browser tab is closed
+Download links use auto-generated unique tokens — files are never directly accessible via URL.
 
 ---
 
-## Scheduled Job
+## ⚙️ Key Environment Variables
 
-To auto-delete expired files, set up a cron job on your server:
-
-```
-* * * * * php /path/to/artisan schedule:run
-```
-
-Or run manually:
-
-```bash
-php artisan files:delete-expired
+```env
+APP_URL=https://kirimapabae.rf.gd
+FILESYSTEM_DISK=local
+SESSION_DRIVER=file
+CACHE_STORE=file
+QUEUE_CONNECTION=sync
+ADMIN_PASSWORD=your_admin_password
 ```
 
 ---
 
-## Security
+## 📌 Deployment Notes (InfinityFree)
 
-- Passwords hashed with **bcrypt**
-- Dangerous file extensions blocked on upload
-- Files stored outside the public directory (`storage/app/private/`)
-- Rate limiting per IP (10 req/min on download routes)
-- Admin session expires on tab close
+- Manually create `storage/app/private/private/files/` via file manager before first upload
+- PHP version: 8.3 (Laravel 11 compatible)
+- Use `file` driver for session and cache (not `database`)
+- Upload files via FileZilla — use mobile hotspot if ISP blocks FTP port 21
+- Run migrations via phpMyAdmin import
 
 ---
 
-## License
+## 👤 Author
 
-free to use and modify.
-byAbda
+**Abda** — [@ikhlasulabda](https://github.com/ikhlasulabda)
+
+---
+
+> *"No cap, it's not complicated. Just drop, upload, share the link, done."*
